@@ -1,3 +1,4 @@
 ue-java-sdk.iml
 .idea
 target
+.DS_Store
