@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -14,6 +13,9 @@ import com.unificationengine.lib.ColorCodes;
 import com.unificationengine.lib.Keychain;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -21,6 +23,22 @@ import java.io.IOException;
  * Created by deadlock on 3/28/16.
  */
 public class UERequest {
+
+    public static boolean isValidJson(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            // edited, to include @Arthur's comment
+            // e.g. in case JSONArray is valid as well...
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     /**
      * fetches a resource
@@ -37,19 +55,21 @@ public class UERequest {
 
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(ColorCodes.YELLOW + "[REQ] => " + resource);
-        System.out.println(Constants.API_BASE + resource);
         Unirest.post(Constants.API_BASE + resource)
                 .basicAuth(keyChain.getKey(), keyChain.getSecret())
                 .body(StringEscapeUtils.escapeJava(requestBody.toString()))
-                .asJsonAsync(new Callback<JsonNode>() {
+                .asStringAsync(new Callback() {
                     @Override
-                    public void completed(HttpResponse<JsonNode> httpResponse) {
+                    public void completed(HttpResponse httpResponse) {
+                        System.out.println(ColorCodes.BLUE + "[RES] => ");
                         try {
-                            System.out.println(httpResponse.getRawBody());
                             String jsonResponse = IOUtils.toString(httpResponse.getRawBody());
-                            JsonObject jObj = new JsonParser().parse(jsonResponse).getAsJsonObject();
-                            System.out.println(ColorCodes.BLUE + "[RES] => ");
-                            System.out.println(gson.toJson(jObj) + ColorCodes.RESET);
+                            if (isValidJson(jsonResponse)) {
+                                JsonObject jObj = new JsonParser().parse(jsonResponse).getAsJsonObject();
+                                System.out.println(gson.toJson(jObj) + ColorCodes.RESET);
+                            } else {
+                                System.out.println(ColorCodes.RED + jsonResponse + ColorCodes.RESET);
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
