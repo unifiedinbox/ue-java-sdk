@@ -1,23 +1,20 @@
 package com.unificationengine.models;
 
+import com.unificationengine.lib.AppKeychain;
+
 /**
  * Created by deadlock on 3/28/16.
  */
 public class UEApp {
 
-    private String appKey;
-    private String appSecret;
+    private AppKeychain keychain;
 
-    public UEApp(String appKey, String appSecret) {
-        this.appKey = appKey;
-        this.appSecret = appSecret;
+    public UEApp(AppKeychain keychain) {
+        this.keychain = keychain;
     }
 
-    public String getAppKey() {
-        return appKey;
+    public AppKeychain getKeychain() {
+        return keychain;
     }
 
-    public String getAppSecret() {
-        return appSecret;
-    }
 }
