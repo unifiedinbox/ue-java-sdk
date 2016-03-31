@@ -6,13 +6,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.unificationengine.config.Constants;
 import com.unificationengine.lib.ColorCodes;
 import com.unificationengine.lib.Keychain;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +45,7 @@ public class UERequest {
      * @param keyChain user:key combination
      * @param body     post body
      */
-    public static void fetch(final String resource, Keychain keyChain, JsonObject requestBody) {
+    public static JsonObject fetch(final String resource, Keychain keyChain, JsonObject requestBody) {
 
         //Check if we have request body
         if (requestBody == null)
@@ -55,37 +53,34 @@ public class UERequest {
 
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(ColorCodes.YELLOW + "[REQ] => " + resource);
-        Unirest.post(Constants.API_BASE + resource)
-                .basicAuth(keyChain.getKey(), keyChain.getSecret())
-                .body(StringEscapeUtils.escapeJava(requestBody.toString()))
-                .asStringAsync(new Callback() {
-                    @Override
-                    public void completed(HttpResponse httpResponse) {
-                        System.out.println(ColorCodes.BLUE + "[RES] => ");
-                        try {
-                            String jsonResponse = IOUtils.toString(httpResponse.getRawBody());
-                            if (isValidJson(jsonResponse)) {
-                                JsonObject jObj = new JsonParser().parse(jsonResponse).getAsJsonObject();
-                                System.out.println(gson.toJson(jObj) + ColorCodes.RESET);
-                            } else {
-                                System.out.println(ColorCodes.RED + jsonResponse + ColorCodes.RESET);
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        System.out.println(ColorCodes.PURPLE + "[PAR] => ");
+        System.out.println(requestBody.toString());
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.post(Constants.API_BASE + resource)
+                    .basicAuth(keyChain.getKey(), keyChain.getSecret())
+                    .body(requestBody.toString())
+                    .asString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
 
-                    @Override
-                    public void failed(UnirestException e) {
-                        e.printStackTrace();
-                    }
 
-                    @Override
-                    public void cancelled() {
-                        System.out.println("Request Cancelled");
-                    }
-                });
+        System.out.println(ColorCodes.BLUE + "[RES] => ");
+
+        try {
+            String jsonResponse = IOUtils.toString(response.getRawBody());
+            if (isValidJson(jsonResponse)) {
+                JsonObject jObj = new JsonParser().parse(jsonResponse).getAsJsonObject();
+                System.out.println(gson.toJson(jObj) + ColorCodes.RESET);
+                return jObj;
+            } else {
+                System.out.println(ColorCodes.RED + jsonResponse + ColorCodes.RESET);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
-
-
 }
