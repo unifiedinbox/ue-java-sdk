@@ -12,9 +12,10 @@ public class Main {
         UEUser u = null;
         try {
             u = new UEUser("user://59cc6c5d-6bc8-4431-8ac0-5201e347b08d:ae600287-5943-4c0d-994f-62b3fcc2ceb1@");
-            UEConnection uec = u.addConnection("cnname", "facebook", "CAACEdEose0cBAINyhwZBwRXFTCV1WxUxBFq4q2sGSKzXrs7jsGZBvtiZArHwUMjolZB0SZAz5qpJh6tkw4J1Mkdb5iCKZCRQ8ZC542MixrSBGUQAzibyklmegWIvDmjZAOnWfZCqcSe0badXrcRAikCOGRYShgzD89qVXvI3YZBsyMjerZAjprq1a4ZCd6mQg7zYpjmaZCaMDDd0JyXwZDZD");
+            UEConnection uec = u.addConnection("cnname", "facebook", "CAACEdEose0cBAINyhwZBwRXFTCV1WxUxBFq4q2GSKzXrs7jsGZBvtiZArHwUMjolZB0SZAz5qpJh6tkw4J1Mkdb5iCKZCRQ8ZC542MixrSBGUQAzibyklmegWIvDmjZAOnWfZCqcSe0badXrcRAikCOGRYShgzD89qVXvI3YZBsyMjerZAjprq1a4ZCd6mQg7zYpjmaZCaMDDd0JyXwZDZD");
             System.out.println(uec);
-            u.removeConnection("a");
+//            u.removeConnection("cnname");
+            u.listConnections();
         } catch (Exception e) {
             e.printStackTrace();
         }
