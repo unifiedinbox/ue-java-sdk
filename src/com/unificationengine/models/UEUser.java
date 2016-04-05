@@ -35,6 +35,15 @@ public class UEUser {
         this.keychain = new UserKeychain(m.group(1), m.group(2));
     }
 
+    public UserKeychain getKeychain() {
+        return keychain;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+
 
     public UEConnection addConnection(String conName, String conScheme, String accessToken) throws UnificationEngineException {
         String conUri = String.format("%s://%s@%s.com", conScheme, accessToken, conScheme);
@@ -64,13 +73,6 @@ public class UEUser {
     }
 
 
-    public UserKeychain getKeychain() {
-        return keychain;
-    }
-
-    public String getUri() {
-        return uri;
-    }
 
     @Override
     public String toString() {

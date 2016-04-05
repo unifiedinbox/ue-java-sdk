@@ -35,41 +35,28 @@ public class UEConnection {
         this.service = m.group(1);
         this.serviceToken = m.group(2);
     }
-
-
     public String getUri() {
         return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getServiceToken() {
         return serviceToken;
     }
 
-    public void setServiceToken(String serviceToken) {
-        this.serviceToken = serviceToken;
-    }
 
     public String getService() {
         return service;
     }
 
-    public void setService(String service) {
-        this.service = service;
-    }
 
     public UEUser getUser() {
         return user;
     }
+
+
 }
