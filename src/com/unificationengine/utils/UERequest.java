@@ -45,7 +45,7 @@ public class UERequest {
      * @param keyChain user:key combination
      * @param body     post body
      */
-    public static JsonObject fetch(final String resource, Keychain keyChain, JsonObject requestBody) {
+    public static JsonObject fetch(final String resource, Keychain keyChain, JsonObject requestBody) throws Exception {
 
         //Check if we have request body
         if (requestBody == null)
@@ -62,7 +62,7 @@ public class UERequest {
                     .body(requestBody.toString())
                     .asString();
         } catch (UnirestException e) {
-            e.printStackTrace();
+            throw e;
         }
 
 
@@ -73,12 +73,17 @@ public class UERequest {
             if (isValidJson(jsonResponse)) {
                 JsonObject jObj = new JsonParser().parse(jsonResponse).getAsJsonObject();
                 System.out.println(gson.toJson(jObj) + ColorCodes.RESET);
+                if (jObj.get("status").getAsInt() != 200) {
+                    throw new Exception(jObj.get("info").getAsString());
+                }
                 return jObj;
             } else {
                 System.out.println(ColorCodes.RED + jsonResponse + ColorCodes.RESET);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
+        } catch (Exception e) {
+            throw e;
         }
 
         return null;

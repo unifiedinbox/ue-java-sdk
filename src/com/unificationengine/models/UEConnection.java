@@ -10,12 +10,12 @@ public class UEConnection {
     private String service;
     private UEUser user;
 
-    public UEConnection(String uri, String name, String serviceToken, String service, UEUser user) {
-        this.uri = uri;
+    public UEConnection(String name, String serviceToken, String service, UEUser user) {
         this.name = name;
         this.serviceToken = serviceToken;
         this.service = service;
         this.user = user;
+        this.uri = String.format("%s://%s@%s.com", service, serviceToken, service);
     }
 
 

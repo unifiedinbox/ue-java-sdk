@@ -1,7 +1,10 @@
 package com.unificationengine.models;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.unificationengine.api.endpoints.ConnectionEndpoints;
 import com.unificationengine.lib.UserKeychain;
+import com.unificationengine.utils.UERequest;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,6 +31,20 @@ public class UEUser {
         this.keychain = new UserKeychain(m.group(1), m.group(2));
     }
 
+
+    public UEConnection addConnection(String conName, String conScheme, String accessToken) throws Exception {
+        String conUri = String.format("%s://%s@%s.com", conScheme, accessToken, conScheme);
+        System.out.println(conUri);
+        JsonObject params = new JsonObject();
+        params.addProperty("name", conName);
+        params.addProperty("uri", conUri);
+        try {
+            UERequest.fetch(ConnectionEndpoints.ADD, this.keychain, params);
+            return new UEConnection(conName, accessToken, conScheme, this);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
     public UserKeychain getKeychain() {
         return keychain;
