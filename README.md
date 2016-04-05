@@ -1,3 +1,68 @@
+# unificationengine-client
+
+## Installation Using Maven
+
+Add unificationengine as a dependency in your pom.xml
+```xml
+ <dependencies>
+    <dependency>
+        <groupId>com.unificationengine</groupId>
+        <artifactId>ue-java-sdk</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+ </dependencies>
+```
+
+## Usage
+
+```java
+UEApp app = new UEApp("APP_KEY","APP_SECRET");
+```
+
+#### Creating User
+```java
+UEUser user = app.createUser();
+```
+Or initialize with pre-saved key,secret
+```java
+UEUser user = new UEUser("USER_KEY","USER_SECRET");
+```
+
+#### Listing Users
+```java
+ArrayList<String> userUris = app.listUsers();
+```
+
+#### Deleting User
+```java
+app.deleteUser(user);
+```
+
+#### Adding a connection to a user
+```java
+UEConnection connection = user.addConnection(connectionName, service, serviceAccessToken)
+```
+
+- `connectionName` must be unique per connection.
+- `serviceAccessToken` has to be valid and working from the provider side
+
+
+#### Listing User connections
+```java
+ArrayList<UEConnection> connections = user.listConnections();
+```
+
+#### Removing a User Connection
+```java
+UEConnection connection = user.addConnection(connectionName, service, serviceAccessToken);
+user.removeConnection(connection);
+//OR
+user.removeConnection(connectionName);
+```
+
+
+### Full Example with Sending a message using a connection
+```java
 import com.unificationengine.lib.message.Message;
 import com.unificationengine.lib.message.MessageLink;
 import com.unificationengine.lib.message.MessageOptions;
@@ -57,3 +122,19 @@ public class Main {
         }
     }
 }
+
+```
+
+
+
+
+
+
+
+
+[npm-image]: https://badge.fury.io/js/unificationengine-client.svg
+[npm-url]: https://npmjs.org/package/unificationengine-client
+[travis-image]: https://travis-ci.org/daedlock/unificationengine-client.svg?branch=master
+[travis-url]: https://travis-ci.org/daedlock/unificationengine-client
+[daviddm-image]: https://david-dm.org/daedlock/unificationengine-client.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/daedlock/unificationengine-client

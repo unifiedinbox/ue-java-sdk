@@ -61,6 +61,10 @@ public class UEUser {
         return true;
     }
 
+    public Boolean removeConnection(UEConnection c) throws UnificationEngineException {
+        this.removeConnection(c.getName());
+        return true;
+    }
 
     public ArrayList<UEConnection> listConnections() throws UnificationEngineException {
         ArrayList<UEConnection> connectionList = new ArrayList<UEConnection>();
