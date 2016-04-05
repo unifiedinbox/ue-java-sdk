@@ -3,6 +3,7 @@ package com.unificationengine.models;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.unificationengine.api.endpoints.ConnectionEndpoints;
+import com.unificationengine.exceptions.UnificationEngineException;
 import com.unificationengine.lib.UserKeychain;
 import com.unificationengine.utils.UERequest;
 
@@ -22,28 +23,31 @@ public class UEUser {
     }
 
 
-    public UEUser(String uri) throws Exception {
+    public UEUser(String uri) throws UnificationEngineException {
         this.uri = uri;
         Pattern p = Pattern.compile("user://(.+?):(.+)@");
         Matcher m = p.matcher(uri);
         if (!m.find())
-            throw new Exception("Invalid User Uri");
+            throw new UnificationEngineException("Invalid User Uri");
         this.keychain = new UserKeychain(m.group(1), m.group(2));
     }
 
 
-    public UEConnection addConnection(String conName, String conScheme, String accessToken) throws Exception {
+    public UEConnection addConnection(String conName, String conScheme, String accessToken) throws UnificationEngineException {
         String conUri = String.format("%s://%s@%s.com", conScheme, accessToken, conScheme);
         System.out.println(conUri);
         JsonObject params = new JsonObject();
         params.addProperty("name", conName);
         params.addProperty("uri", conUri);
-        try {
             UERequest.fetch(ConnectionEndpoints.ADD, this.keychain, params);
             return new UEConnection(conName, accessToken, conScheme, this);
-        } catch (Exception e) {
-            throw e;
-        }
+    }
+
+    public Boolean removeConnection(String conUri) throws UnificationEngineException {
+        JsonObject params = new JsonObject();
+        params.addProperty(uri, conUri);
+        UERequest.fetch(ConnectionEndpoints.REMOVE, this.keychain, params);
+        return true;
     }
 
     public UserKeychain getKeychain() {

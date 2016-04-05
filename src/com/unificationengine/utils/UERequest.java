@@ -8,6 +8,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.unificationengine.config.Constants;
+import com.unificationengine.exceptions.UnificationEngineException;
 import com.unificationengine.lib.ColorCodes;
 import com.unificationengine.lib.Keychain;
 import org.apache.commons.io.IOUtils;
@@ -45,7 +46,7 @@ public class UERequest {
      * @param keyChain user:key combination
      * @param body     post body
      */
-    public static JsonObject fetch(final String resource, Keychain keyChain, JsonObject requestBody) throws Exception {
+    public static JsonObject fetch(final String resource, Keychain keyChain, JsonObject requestBody) throws UnificationEngineException {
 
         //Check if we have request body
         if (requestBody == null)
@@ -62,7 +63,7 @@ public class UERequest {
                     .body(requestBody.toString())
                     .asString();
         } catch (UnirestException e) {
-            throw e;
+            throw new UnificationEngineException(e.getMessage());
         }
 
 
@@ -74,16 +75,16 @@ public class UERequest {
                 JsonObject jObj = new JsonParser().parse(jsonResponse).getAsJsonObject();
                 System.out.println(gson.toJson(jObj) + ColorCodes.RESET);
                 if (jObj.get("status").getAsInt() != 200) {
-                    throw new Exception(jObj.get("info").getAsString());
+                    throw new UnificationEngineException(jObj.get("info").getAsString());
                 }
                 return jObj;
             } else {
                 System.out.println(ColorCodes.RED + jsonResponse + ColorCodes.RESET);
             }
         } catch (IOException e) {
-            throw e;
+            throw new UnificationEngineException(e.getMessage());
         } catch (Exception e) {
-            throw e;
+            throw new UnificationEngineException(e.getMessage());
         }
 
         return null;

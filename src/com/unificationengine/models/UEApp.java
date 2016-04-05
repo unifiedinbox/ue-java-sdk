@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.unificationengine.api.endpoints.UserEndpoints;
+import com.unificationengine.exceptions.UnificationEngineException;
 import com.unificationengine.lib.AppKeychain;
 import com.unificationengine.utils.UERequest;
 
@@ -25,75 +26,41 @@ public class UEApp {
     }
 
 
-    public UEUser createUser() {
-
-        JsonObject response = null;
-        try {
-            response = UERequest.fetch(UserEndpoints.CREATE, this.keychain, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (response.get("status").getAsInt() == 200) {
-
-            String userUri = response.get("uri").getAsString();
-            try {
-                return new UEUser(userUri);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+    public UEUser createUser() throws UnificationEngineException {
+        JsonObject response = UERequest.fetch(UserEndpoints.CREATE, this.keychain, null);
+        String userUri = response.get("uri").getAsString();
+        return new UEUser(userUri);
     }
 
 
-    public Boolean deleteUser(String userUri) {
+    public Boolean deleteUser(String userUri) throws UnificationEngineException {
         JsonObject params = new JsonObject();
         params.addProperty("uri", userUri);
         JsonObject response = null;
-        try {
-            response = UERequest.fetch(UserEndpoints.DELETE, this.keychain, params);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response.get("status").getAsInt() == 200;
-
+        response = UERequest.fetch(UserEndpoints.DELETE, this.keychain, params);
+        return true;
     }
 
-    public Boolean deleteUser(UEUser user) {
+    public Boolean deleteUser(UEUser user) throws UnificationEngineException {
         JsonObject params = new JsonObject();
         params.addProperty("uri", user.getUri());
         JsonObject response = null;
-        try {
-            response = UERequest.fetch(UserEndpoints.DELETE, this.keychain, params);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response.get("status").getAsInt() == 200;
-
+        response = UERequest.fetch(UserEndpoints.DELETE, this.keychain, params);
+        return true;
     }
 
 
-    public ArrayList<String> listUsers() {
+    public ArrayList<String> listUsers() throws UnificationEngineException {
         JsonObject params = new JsonObject();
         JsonObject response = null;
-        try {
-            response = UERequest.fetch(UserEndpoints.LIST, this.keychain, params);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        response = UERequest.fetch(UserEndpoints.LIST, this.keychain, params);
         ArrayList<String> userList = new ArrayList<String>();
         JsonArray userArray = response.getAsJsonArray("users");
         for (final JsonElement userEl : userArray) {
             JsonObject userObj = userEl.getAsJsonObject();
-            try {
-                userList.add(userObj.get("uri").getAsString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            userList.add(userObj.get("uri").getAsString());
         }
         return userList;
-
     }
 
 
