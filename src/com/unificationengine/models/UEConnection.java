@@ -1,5 +1,6 @@
 package com.unificationengine.models;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -162,6 +163,6 @@ public class UEConnection {
         JsonObject params = new JsonObject();
         params.add("message", this.buildMessageBody(options));
         JsonObject response = UERequest.fetch(MessageEndpoints.SEND, this.user.getKeychain(), params);
-        return null;
+        return new Gson().fromJson(response.get("URIs").getAsJsonArray(), ArrayList.class);
     }
 }

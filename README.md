@@ -71,6 +71,9 @@ import com.unificationengine.models.UEApp;
 import com.unificationengine.models.UEConnection;
 import com.unificationengine.models.UEUser;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by deadlock on 3/30/16.
  */
@@ -81,7 +84,7 @@ public class Main {
 
         try {
             UEUser u = new UEUser("user://59cc6c5d-6bc8-4431-8ac0-5201e347b08d:ae600287-5943-4c0d-994f-62b3fcc2ceb1@");
-            UEConnection uec = u.addConnection("conName", "facebook", "CAACEdEose0cBAJxc7g5cxXWvNECRUxAnOZAJqZA3jfZBAEOO4qXh1uZAhkFJwpUC9791xEz4hEYz9xAeANlQJmUYVAQZAC3korVXP1130Rnf51MFM2dFSZAZBHyY8i94j0gCqPYjiv2YkPIiXqNeyJtu4NcTtZAOF0B0XCJRF11XzGuke1cM1WB11ZBb88i0PEv8frX9YRne6zAZDZD");
+            UEConnection uec = u.addConnection("conName", "facebook", "CAACEdEose0cBACUuDCesj7DMZCEgZBilF8cIoHN1Pl8snkNPjycL59ziltQowf2utbdW4oBSX7x0fNrs1jZA5oW42cdFzfUYFHCB4g6gOtBiDkkZCDWSsnvh8a53ZCfFj3cdv3i3YTZClCCr1NgMpf9U6NXI7Iy1de2lZB2jEmFf1ZBD7vOWulxT9X8AQk9R4pyTL46JTdtUEAZDZD");
 
             //Specify Message Options
             MessageOptions options = new MessageOptions();
@@ -116,7 +119,8 @@ public class Main {
 
 
             //Send Message
-            uec.sendMessage(options);
+            ArrayList<String> urls = uec.sendMessage(options);
+            System.out.println(Arrays.asList(urls.toArray()));
         } catch (Exception e) {
             e.printStackTrace();
         }
