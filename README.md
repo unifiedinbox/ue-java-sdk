@@ -1,17 +1,8 @@
 # unificationengine-client
 
-## Installation Using Maven
+## Installation
 
-Add unificationengine as a dependency in your pom.xml
-```xml
- <dependencies>
-    <dependency>
-        <groupId>com.unificationengine</groupId>
-        <artifactId>ue-java-sdk</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
- </dependencies>
-```
+To use the library, you need to include it's classes into your classpath. The project is bundled into one jar file in dist/ue-java-sdk.jar that you can include into your classpath using your favorite IDE/Editor or from the command line using `java -cp <jar_location> <your class>`
 
 ## Usage
 
