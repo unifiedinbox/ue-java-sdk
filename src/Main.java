@@ -12,6 +12,10 @@ import java.util.Arrays;
 /**
  * Created by deadlock on 3/30/16.
  */
+
+//This is the java class we use to test the whole sdk. It's there just as an example of usage.
+
+
 public class Main {
     public static void main(String[] args) {
 
@@ -19,7 +23,9 @@ public class Main {
 
         try {
             UEUser u = new UEUser("user://59cc6c5d-6bc8-4431-8ac0-5201e347b08d:ae600287-5943-4c0d-994f-62b3fcc2ceb1@");
-            UEConnection uec = u.addConnection("conName", "facebook", "CAACEdEose0cBACUuDCesj7DMZCEgZBilF8cIoHN1Pl8snkNPjycL59ziltQowf2utbdW4oBSX7x0fNrs1jZA5oW42cdFzfUYFHCB4g6gOtBiDkkZCDWSsnvh8a53ZCfFj3cdv3i3YTZClCCr1NgMpf9U6NXI7Iy1de2lZB2jEmFf1ZBD7vOWulxT9X8AQk9R4pyTL46JTdtUEAZDZD");
+
+            //We need to put the facebook access token below
+            UEConnection uec = u.addConnection("conName", "facebook", "CAACEdEose0cBAH2DsJsMJHfKiClePb4ZAHsRq6DDCZCkI4FULnY4cJpt9lZBmoQ6Mw7OM1l1uZAsnhZCmfGsryfOEdHdfZCHhYSKm9w0qjqvN4x5hq6BZAzQIf6xFi83zFAeZB0DyINtY6uZCsZAonkwmjSLB3kwDf45D2XdeA7jCatNwoXHPXWW3gXDl1mvaGyX24qPjQ2C1M9QZDZD");
 
             //Specify Message Options
             MessageOptions options = new MessageOptions();
@@ -39,13 +45,13 @@ public class Main {
             m.setImage("https://raw.githubusercontent.com/plu/JPSimulatorHacks/master/Data/test.png");
 
             //Message Body
-            m.setBody("Message Body");
+            m.setBody("Hi Emy!");
 
 
             //Message Link
             MessageLink mLink = new MessageLink();
-            mLink.setDesc("Link Description");
-            mLink.setTitle("Link Title");
+            mLink.setDesc("Hi Emy, this is desc");
+            mLink.setTitle("Hi Emy this is title");
             mLink.setUri("http://google.com");
 
             m.setLink(mLink);

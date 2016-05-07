@@ -53,9 +53,9 @@ public class UERequest {
             requestBody = new JsonObject();
 
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(ColorCodes.YELLOW + "[REQ] => " + resource);
-        System.out.println(ColorCodes.PURPLE + "[PAR] => ");
-        System.out.println(requestBody.toString());
+//        System.out.println(ColorCodes.YELLOW + "[REQ] => " + resource);
+//        System.out.println(ColorCodes.PURPLE + "[PAR] => ");
+//        System.out.println(requestBody.toString());
         HttpResponse<String> response = null;
         try {
             response = Unirest.post(Constants.API_BASE + resource)
@@ -67,13 +67,13 @@ public class UERequest {
         }
 
 
-        System.out.println(ColorCodes.BLUE + "[RES] => ");
+//        System.out.println(ColorCodes.BLUE + "[RES] => ");
 
         try {
             String jsonResponse = IOUtils.toString(response.getRawBody());
             if (isValidJson(jsonResponse)) {
                 JsonObject jObj = new JsonParser().parse(jsonResponse).getAsJsonObject();
-                System.out.println(gson.toJson(jObj) + ColorCodes.RESET);
+//                System.out.println(gson.toJson(jObj) + ColorCodes.RESET);
 
                 if (jObj.has("status") && jObj.get("status").getAsInt() != 200) {
                     throw new UnificationEngineException(jObj.get("info").getAsString());
@@ -83,7 +83,7 @@ public class UERequest {
                 //For handling different response in message/send route
                 if (jObj.has("Status")) {
                     ArrayList<String> errors = new ArrayList<String>();
-                    System.out.println(jObj.get("Status").getAsJsonObject().get(""));
+//                    System.out.println(jObj.get("Status").getAsJsonObject().get(""));
                     for (Map.Entry<String, JsonElement> entry : jObj.get("Status").getAsJsonObject().entrySet()) {
 
                         if (entry.getValue().getAsJsonObject().get("status").getAsInt() != 200) {
