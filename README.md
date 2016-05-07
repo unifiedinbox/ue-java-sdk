@@ -2,7 +2,7 @@
 
 ## Installation
 
-To use the library, you need to include it's classes into your classpath. The project is bundled into one jar file in dist/ue-java-sdk.jar that you can include into your classpath using your favorite IDE/Editor or from the command line using `java -cp <jar_location> <your class>`
+To use the library, you need to include it's classes into your classpath. The project is bundled into one contained jar file in dist/ue-java-sdk.jar that you can include into your classpath using your favorite IDE/Editor or from the command line using `java -cp <jar_location> <your class>`
 
 ## Usage
 
