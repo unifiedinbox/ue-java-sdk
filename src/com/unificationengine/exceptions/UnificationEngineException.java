@@ -29,6 +29,6 @@ public class UnificationEngineException extends Exception {
     @Override
     public String getMessage() {
         System.out.println("From Exception Class");
-        System.out.println(this.getMessage());
+        return super.getMessage();
     }
 }
