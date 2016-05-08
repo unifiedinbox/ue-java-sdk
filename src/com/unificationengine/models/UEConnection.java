@@ -76,7 +76,7 @@ public class UEConnection {
 
         //Add this connector to receivers
         for (JsonElement receiver : receivers) {
-            System.out.println(receiver);
+//            System.out.println(receiver);
             receiver.getAsJsonObject().addProperty("Connector", this.name);
             if (receiver.getAsJsonObject().has("id")) {
                 receiver.getAsJsonObject().addProperty("address", receiver.getAsJsonObject().get("id").getAsString());
