@@ -6,7 +6,6 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.unificationengine.config.Constants;
 import com.unificationengine.exceptions.UnificationEngineException;
-import com.unificationengine.lib.ColorCodes;
 import com.unificationengine.lib.Keychain;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -99,7 +98,7 @@ public class UERequest {
 
                 return jObj;
             } else {
-                System.out.println(ColorCodes.RED + jsonResponse + ColorCodes.RESET);
+//                System.out.println(ColorCodes.RED + jsonResponse + ColorCodes.RESET);
             }
         } catch (IOException e) {
             throw new UnificationEngineException(e.getMessage());
